@@ -1,0 +1,13 @@
+.WDA-tables-list{
+	width: 100%;
+    border: 1px solid;
+}
+.WDA-tables-list tr:nth-child(even){
+	background: #CCC
+}
+.WDA-tables-list th {
+    text-align: left;
+}
+.table-action-a {
+    margin-right: 5px;
+}
