@@ -6,7 +6,7 @@
 			<th>Rows</th>
 			<th>Type</th>
 			<th>Collation</th>
-			<th>Size</th>
+			<th>Size (MB)</th>
 			<th>Overhead</th>
 		</tr>
 	<?php
@@ -14,6 +14,7 @@
 		$WDA_database_table_list=$wpdb->get_results("SHOW TABLES");
 		$WDA_total_table=$wpdb->num_rows;
 		$WDA_total_rows=0;
+		$WDA_total_mb_size=0;
 		foreach($WDA_database_table_list as $WDA_database_table){
 			echo"<tr>";
 				echo"<td>".$WDA_database_table->Tables_in_plugin."</td>";
@@ -23,7 +24,9 @@
 				echo"<td>".$WDA_count_row_of_table->cnt."</td>";
 				echo"<td>InnoDB</td>";
 				echo"<td>utf8mb4_unicode_ci</td>";
-				echo"<td>0 Kib</td>";
+				$WDA_database_table_size=$wpdb->get_row("SELECT TABLE_NAME AS `Table`,ROUND(((DATA_LENGTH + INDEX_LENGTH) / 1024 / 1024),2) AS `Size` FROM information_schema.TABLES WHERE  TABLE_NAME = '".$WDA_database_table->Tables_in_plugin."'");
+				$WDA_total_mb_size+=$WDA_database_table_size->Size;
+				echo"<td>".$WDA_database_table_size->Size."</td>";
 				echo"<td>- Kib</td>";
 			echo"</tr>";
 		}
@@ -34,7 +37,7 @@
 			<th><?= $WDA_total_rows ?></th>
 			<th>Type</th>
 			<th>Collation</th>
-			<th>Size</th>
+			<th><?= $WDA_total_mb_size ?></th>
 			<th>Overhead</th>
 		</tr>
 	</table>
