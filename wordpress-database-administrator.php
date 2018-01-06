@@ -23,8 +23,14 @@ function WDA_Menu_Pages(){
     add_menu_page('Wordpress Database Administrator', 'WDA', 'manage_options', 'WDA', 'WDA_main_page' );
     /*add_submenu_page('my-menu', 'Submenu Page Title', 'Whatever You Want', 'manage_options', 'my-menu' );
     add_submenu_page('my-menu', 'Submenu Page Title2', 'Whatever You Want2', 'manage_options', 'my-menu2' );*/
+	
+	add_submenu_page('WDA_browse_table',__( 'Page title', 'Browse' ),'','manage_options','WDA_browse_table','WDA_browse_table');
 }
 
 function WDA_main_page(){	
 	require_once 'WDA_main_page.php';
+}
+
+function WDA_browse_table(){
+	require_once 'WDA_browse_table.php';
 }
