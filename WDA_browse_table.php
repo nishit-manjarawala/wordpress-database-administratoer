@@ -76,7 +76,7 @@
 				$WDA_counter=0;
 				foreach($WDA_Coulumn_Label_Array as $WDA_Coulumn_Label){
 					if($WDA_counter==0)
-						$WDA_search_Query.=" ".$WDA_Coulumn_Label." LIKE '%".$_GET['WDA_search']."%' ";//array_push($WDA_search_Arr," ".$WDA_Coulumn_Label." LIKE '%".$WDA_Coulumn_Label."%' ");
+						$WDA_search_Query.=" ".$WDA_Coulumn_Label." LIKE '%".$_GET['WDA_search']."%' ";
 					else
 						$WDA_search_Query.=" OR ".$WDA_Coulumn_Label." LIKE '%".$_GET['WDA_search']."%' ";
 					$WDA_counter++;
@@ -87,7 +87,9 @@
 		
 			$WDA_Query_Final_execute=$WDA_Query.$WDA_search_Query.$WDAorderby_Query.$WDA_Limit_Query;
 			$WDA_Query_Rows=$wpdb->get_results($WDA_Query_Final_execute, OBJECT);
-			echo"<script>document.getElementById('WDA_print_query').innerHTML='".$WDA_Query_Final_execute."';</script>";
+			?>
+			<script>document.getElementById('WDA_print_query').innerHTML="<?= $WDA_Query_Final_execute ?>";</script>
+			<?php
 			foreach($WDA_Query_Rows as $WDA_Query_Row){
 		?>
 			<tr>
