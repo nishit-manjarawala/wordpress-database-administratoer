@@ -12,7 +12,7 @@
 .table-action-a {
     margin-right: 5px;
 }
-
+.WDA-Editable-Text,.WDA-Editable-Label{width:100%;}
 .notify {
 	background-color:#e3f7fc; 
 	color:#555; 
@@ -32,3 +32,63 @@
 .WDA_btn-back:focus{
 	box-shadow: none;
 }
+/*css for WDA_popup*/
+.WDA_overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index:1111;
+}
+.WDA_overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.WDA_popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.WDA_popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.WDA_popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.WDA_popup .close:hover {
+  color: #06D85F;
+}
+.WDA_popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .WDA_popup{
+    width: 70%;
+  }
+}
+/*end css for WDA_popup*/
