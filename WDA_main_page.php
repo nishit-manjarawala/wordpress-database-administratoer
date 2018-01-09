@@ -17,7 +17,7 @@
 		foreach($WDA_database_table_list as $WDA_database_table){
 			echo"<tr>";
 				echo"<td>".$WDA_database_table->Name."</td>";
-				echo"<td> <a class='table-action-a' href='".admin_url( 'options.php?page=WDA_browse_table' )."&WDA_table=".$WDA_database_table->Name."'>Browse</a> <a class='table-action-a' href='#'>Structure</a> <a class='table-action-a' href='#'>Search</a> <a class='table-action-a' href='#'>Insert</a> <a class='table-action-a' href='#'>Empty</a> <a class='table-action-a' href='#'>Drop</a></td>";
+				echo"<td> <a class='table-action-a' href='".admin_url( 'options.php?page=WDA_browse_table' )."&WDA_table=".$WDA_database_table->Name."'>Browse</a> <a class='table-action-a' href='".admin_url( 'options.php?page=WDA_structure_table' )."&WDA_table=".$WDA_database_table->Name."'>Structure</a> <a class='table-action-a' href='".admin_url( 'options.php?page=WDA_search_in_column_table' )."&WDA_table=".$WDA_database_table->Name."'>Search</a> <a class='table-action-a' href='#'>Insert</a> <a class='table-action-a' href='#'>Empty</a> <a class='table-action-a' href='#'>Drop</a></td>";
 				$WDA_count_row_of_table=$wpdb->get_row("SELECT COUNT(*) as cnt FROM ".$WDA_database_table->Name);
 				$WDA_total_rows+=$WDA_count_row_of_table->cnt;
 				echo"<td>".$WDA_count_row_of_table->cnt."</td>";

@@ -51,4 +51,15 @@ function WDA_addOrUpdateUrlParam($name, $value,$sort_type=""){
 	}
 	return basename($_SERVER['PHP_SELF']).'?'.http_build_query($params);
 }
+
+//for get all labels of table
+function WDA_get_TABLE_ALL_LAble($WDA_table_name){
+	global $wpdb;
+	$WDA_Coulumn_Label_Array=array();
+	$WDA_Columns_Labels=$wpdb->get_results("SELECT * FROM INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='".$WDA_table_name."' GROUP BY COLUMN_NAME ORDER BY ORDINAL_POSITION");
+	foreach($WDA_Columns_Labels as $WDA_Columns_Label){
+		array_push($WDA_Coulumn_Label_Array,$WDA_Columns_Label);
+	}
+	return $WDA_Coulumn_Label_Array;
+}
 ?>

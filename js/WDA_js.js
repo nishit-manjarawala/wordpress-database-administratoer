@@ -78,6 +78,7 @@ jQuery(document).ready(function(){
 			queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
 		}
 		queryParameters['WDA_search'] = jQuery('#WDA_search_all_column').val();
+		queryParameters['cpage'] = 1;//when searching it create page no 1
 		location.search = jQuery.param(queryParameters);
 	}
 	/****end search on all column****/

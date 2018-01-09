@@ -25,11 +25,52 @@ add_action( 'admin_enqueue_scripts', 'WDA_admin_SCRIPT_all_page' );
 
 add_action('admin_menu', 'WDA_Menu_Pages');
 function WDA_Menu_Pages(){
-    add_menu_page('Wordpress Database Administrator', 'WDA', 'manage_options', 'WDA', 'WDA_main_page' );
-    /*add_submenu_page('my-menu', 'Submenu Page Title', 'Whatever You Want', 'manage_options', 'my-menu' );
-    add_submenu_page('my-menu', 'Submenu Page Title2', 'Whatever You Want2', 'manage_options', 'my-menu2' );*/
+    add_menu_page(
+		'Wordpress Database Administrator',
+		'WDA',
+		'manage_options',
+		'WDA',
+		'WDA_main_page' );
+    
+	add_submenu_page(
+        'WDA',
+        'WDA SQL QUERY', //page title
+        'WDA SQL QUERY', //menu title
+        'manage_options', //capability,
+        'WDA_SQL_QUERY',//menu slug
+        'WDA_SQL_QUERY' //callback function
+    );
 	
-	add_submenu_page('WDA_browse_table',__( 'Page title', 'Browse' ),'','manage_options','WDA_browse_table','WDA_browse_table');
+	//hidden pages not show in menu bar
+	add_submenu_page(
+		'WDA_browse_table',
+		__( 'Page title',
+		'Browse' ),
+		'',
+		'manage_options',
+		'WDA_browse_table',
+		'WDA_browse_table'
+	);
+	
+	add_submenu_page(
+		'WDA_structure_table',
+		__( 'Page title',
+		'Structure' ),
+		'',
+		'manage_options',
+		'WDA_structure_table',
+		'WDA_structure_table'
+	);
+	
+	add_submenu_page(
+		'WDA_search_in_column_table',
+		__( 'Page title',
+		'Structure' ),
+		'',
+		'manage_options',
+		'WDA_search_in_column_table',
+		'WDA_search_in_column_table'
+	);
 }
 /*Added Ajax Functins*/
 require_once 'WDA_function.php';
@@ -42,5 +83,19 @@ function WDA_main_page(){
 function WDA_browse_table(){
 	require_once 'WDA_popup.php';
 	require_once 'WDA_browse_table.php';
+}
+
+function WDA_structure_table(){
+	require_once 'WDA_popup.php';
+	require_once 'WDA_structure_table.php';
+}
+
+function WDA_search_in_column_table(){
+	require_once 'WDA_popup.php';
+	require_once 'WDA_search_in_column_table.php';
+}
+
+function WDA_SQL_QUERY(){
+	
 }
 ?>

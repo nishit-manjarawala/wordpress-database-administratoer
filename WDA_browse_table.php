@@ -1,26 +1,55 @@
 <div class="wrap">
-	<?php
+	<?php	
 		global $wpdb;
-		$WDA_Query="SELECT * FROM `".$_GET['WDA_table']."`";		
-		$sort="ASC";		
+		$WDA_Query="SELECT * FROM `".$_GET['WDA_table']."` where 1=1 ";		
+		$sort="ASC";
 		
-		/*pagination code logic*/
-		$items_per_page = 50;
-		if(isset($_GET['WDA_items_per_page'])){
-			$items_per_page = $_GET['WDA_items_per_page'];
+		
+		/********search from search page*********/
+		if(isset($_REQUEST['WDA_Search_fildes']) && isset($_REQUEST['WDA_Search_fildes']) && isset($_REQUEST['WDA_search_left_Label']) && isset($_REQUEST['WDA_search_oprator']) && isset($_REQUEST['WDA_search_right_Value'])){
+			echo'<pre>';
+			print_r($_REQUEST);
+			echo'</pre>';
+			$_GET['WDA_Search_fildes']=$_REQUEST['WDA_Search_fildes'];
+			$_GET['WDA_search_left_Label']=$_REQUEST['WDA_search_left_Label'];
+			$_GET['WDA_search_oprator']=$_REQUEST['WDA_search_oprator'];
+			$_GET['WDA_search_right_Value']=$_REQUEST['WDA_search_right_Value'];
+			
+			$key_conter=1;
+			$key_parameter_conter=1;
+			$WDA_Search_fildes=" ";
+			foreach($_REQUEST['WDA_search_right_Value'] as $WDA_search_right_Value){
+				if(!empty($WDA_search_right_Value)){
+					if($_REQUEST['WDA_search_oprator'][$key_conter]=='=' || $_REQUEST['WDA_search_oprator'][$key_conter]=='<'  || $_REQUEST['WDA_search_oprator'][$key_conter]=='>' || $_REQUEST['WDA_search_oprator'][$key_conter]=='<=' || $_REQUEST['WDA_search_oprator'][$key_conter]=='>=' || $_REQUEST['WDA_search_oprator'][$key_conter]=='!=' || $_REQUEST['WDA_search_oprator'][$key_conter]=='LIKE' || $_REQUEST['WDA_search_oprator'][$key_conter]=='NOT LIKE'){
+						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." ".$_REQUEST['WDA_search_oprator'][$key_conter]." '".$_REQUEST['WDA_search_right_Value'][$key_conter]."' ";
+					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='LIKE %...%'){
+						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." LIKE '%".$_REQUEST['WDA_search_right_Value'][$key_conter]."%' ";
+					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='IN (...)'){
+						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." IN (".$_REQUEST['WDA_search_right_Value'][$key_conter].") ";
+					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='NOT IN (...)'){
+						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." NOT IN (".$_REQUEST['WDA_search_right_Value'][$key_conter].") ";
+					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='BETWEEN'){
+						$between=explode(',',$_REQUEST['WDA_search_right_Value'][$key_conter]);
+						$between_min=$between[0];
+						$between_max=$between[1];
+						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." BETWEEN '".$between_min."' AND '".$between_max."' ";
+					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='NOT BETWEEN'){
+						$between=explode(',',$_REQUEST['WDA_search_right_Value'][$key_conter]);
+						$between_min=$between[0];
+						$between_max=$between[1];
+						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." NOT BETWEEN '".$between_min."' AND '".$between_max."' ";
+					}
+					$key_parameter_conter++;
+				}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='IS NULL' || $_REQUEST['WDA_search_oprator'][$key_conter]=='IS NOT NULL'){
+					$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." ".$_REQUEST['WDA_search_oprator'][$key_conter]." ";
+					$key_parameter_conter++;
+				}
+				$key_conter++;
+			}
+			$WDA_Query.= $WDA_Search_fildes;
 		}
+		/********end search from search page*********/
 		
-		$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
-		$offset = ( $page * $items_per_page ) - $items_per_page;
-
-		$total_query = "SELECT COUNT(1) FROM (${WDA_Query}) AS combined_table";
-		$total = $wpdb->get_var( $total_query );
-		
-		$WDA_Limit_Query='';
-		if($items_per_page!=-1){
-			$WDA_Limit_Query=' LIMIT '. $offset.', '. $items_per_page;
-		}
-		/*end pagination code logic*/
 		
 		/*Order By*/
 		$WDAorderby_Query="";
@@ -33,6 +62,12 @@
 		$WDA_get_Primery_Key=$wpdb->get_row("SHOW INDEX FROM ".$_GET['WDA_table']." WHERE Key_name = 'PRIMARY'");		
 		$WDA_Primery_key_name=$WDA_get_Primery_Key->Column_name;
 		/**/
+		/*for number of record show*/
+		$items_per_page = 50;
+		if(isset($_GET['WDA_items_per_page'])){
+			$items_per_page = $_GET['WDA_items_per_page'];
+		}
+		/*end for number of record show*/
 	?>
 	<a class='WDA_btn-back' href="<?= admin_url( 'options.php?page=WDA' ) ?>"><img src="<?= plugins_url('images/btn-back.png', __FILE__) ?>" style="width:50px;" /></a>
 	<div id="WDA_print_query" class="notify notify-yellow"><?= $WDA_Query ?></div>
@@ -72,17 +107,30 @@
 			/*search in all column*/
 			$WDA_search_Query='';
 			if(isset($_GET['WDA_search']) && !empty($_GET['WDA_search'])){
-				$WDA_search_Query=" WHERE ";
+				$WDA_search_Query=" AND ";
 				$WDA_counter=0;
 				foreach($WDA_Coulumn_Label_Array as $WDA_Coulumn_Label){
-					if($WDA_counter==0)
-						$WDA_search_Query.=" ".$WDA_Coulumn_Label." LIKE '%".$_GET['WDA_search']."%' ";
+					 if($WDA_counter==0)
+						 $WDA_search_Query.=" ".$WDA_Coulumn_Label." LIKE '%".$_GET['WDA_search']."%' ";
 					else
 						$WDA_search_Query.=" OR ".$WDA_Coulumn_Label." LIKE '%".$_GET['WDA_search']."%' ";
 					$WDA_counter++;
 				}
 			}
 			/*end search in all column*/
+			
+			/*pagination code logic*/		
+			$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
+			$offset = ( $page * $items_per_page ) - $items_per_page;
+			$WDA_COUNT_PAGINATION_QUERY=$WDA_Query.$WDA_search_Query;
+			$total_query = "SELECT COUNT(1) FROM (${WDA_COUNT_PAGINATION_QUERY}) AS combined_table";
+			$total = $wpdb->get_var( $total_query );
+			
+			$WDA_Limit_Query='';
+			if($items_per_page!=-1){
+				$WDA_Limit_Query=' LIMIT '. $offset.', '. $items_per_page;
+			}
+			/*end pagination code logic*/
 		
 		
 			$WDA_Query_Final_execute=$WDA_Query.$WDA_search_Query.$WDAorderby_Query.$WDA_Limit_Query;
@@ -105,17 +153,19 @@
 			</tr>
 		<?php
 			}
-			$colspan= count($WDA_Coulumn_Label_Array) + 1; 
-			echo"<tr><td colspan='".$colspan."'>";
-			echo paginate_links( array(
-				'base' => add_query_arg( 'cpage', '%#%' ),
-				'format' => '',
-				'prev_text' => __('« Previous'),
-				'next_text' => __('Next »'),
-				'total' => ceil($total / $items_per_page),
-				'current' => $page
-			));
-			echo"</tr></td>";
+			if($total > $items_per_page){
+				$colspan= count($WDA_Coulumn_Label_Array) + 1; 
+				echo"<tr><td colspan='".$colspan."'>";
+				echo paginate_links( array(
+					'base' => add_query_arg( 'cpage', '%#%' ),
+					'format' => '',
+					'prev_text' => __('« Previous'),
+					'next_text' => __('Next »'),
+					'total' => ceil($total / $items_per_page),
+					'current' => $page
+				));
+				echo"</tr></td>";
+			}
 		?>
 	</table>	
 </div>
