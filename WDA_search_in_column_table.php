@@ -34,8 +34,8 @@
 					<option value="LIKE">LIKE</option>
 					<option value="LIKE %...%">LIKE %...%</option>
 					<option value="NOT LIKE">NOT LIKE</option>
-					<option value="IN (...)">IN (...)</option>
-					<option value="NOT IN (...)">NOT IN (...)</option>
+					<option value="IN">IN (...)</option>
+					<option value="NOT IN">NOT IN (...)</option>
 					<option value="BETWEEN">BETWEEN</option>
 					<option value="NOT BETWEEN">NOT BETWEEN</option>
 					<option value="IS NULL">IS NULL</option>

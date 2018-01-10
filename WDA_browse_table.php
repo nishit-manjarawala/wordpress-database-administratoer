@@ -7,9 +7,6 @@
 		
 		/********search from search page*********/
 		if(isset($_REQUEST['WDA_Search_fildes']) && isset($_REQUEST['WDA_Search_fildes']) && isset($_REQUEST['WDA_search_left_Label']) && isset($_REQUEST['WDA_search_oprator']) && isset($_REQUEST['WDA_search_right_Value'])){
-			echo'<pre>';
-			print_r($_REQUEST);
-			echo'</pre>';
 			$_GET['WDA_Search_fildes']=$_REQUEST['WDA_Search_fildes'];
 			$_GET['WDA_search_left_Label']=$_REQUEST['WDA_search_left_Label'];
 			$_GET['WDA_search_oprator']=$_REQUEST['WDA_search_oprator'];
@@ -24,10 +21,18 @@
 						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." ".$_REQUEST['WDA_search_oprator'][$key_conter]." '".$_REQUEST['WDA_search_right_Value'][$key_conter]."' ";
 					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='LIKE %...%'){
 						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." LIKE '%".$_REQUEST['WDA_search_right_Value'][$key_conter]."%' ";
-					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='IN (...)'){
-						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." IN (".$_REQUEST['WDA_search_right_Value'][$key_conter].") ";
-					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='NOT IN (...)'){
-						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." NOT IN (".$_REQUEST['WDA_search_right_Value'][$key_conter].") ";
+					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='IN' || $_REQUEST['WDA_search_oprator'][$key_conter]=='NOT IN'){
+						$WDA_Search_fildes.=" AND ".$_REQUEST['WDA_search_left_Label'][$key_conter]." ".$_REQUEST['WDA_search_oprator'][$key_conter]." (";
+						$arr=explode(",",$_REQUEST['WDA_search_right_Value'][$key_conter]);
+						$pos=0;
+						foreach($arr as $ar){
+							if($pos!=0){
+								$WDA_Search_fildes.=',';
+							}
+							$WDA_Search_fildes.="'".$ar."'";
+							$pos++;
+						}
+						$WDA_Search_fildes.=") ";
 					}else if($_REQUEST['WDA_search_oprator'][$key_conter]=='BETWEEN'){
 						$between=explode(',',$_REQUEST['WDA_search_right_Value'][$key_conter]);
 						$between_min=$between[0];

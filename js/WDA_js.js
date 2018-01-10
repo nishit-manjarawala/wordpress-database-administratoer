@@ -92,5 +92,24 @@ jQuery(document).ready(function(){
 		jQuery('#WDA_popup h2').html(title);
 		jQuery('#WDA_popup .content').html(message);		
 		location.href='#WDA_popup';
-	}	
+	}
+	
+	function WDA_Array_field_popup(){
+		location.href='#WDA_Array_field_popup';
+	}
+	
+	jQuery("select[name^=WDA_search_oprator]").change(function(){
+		if(jQuery(this).val()=="IN" || jQuery(this).val()=="NOT IN"){
+			WDA_Array_field_popup();
+		}
+	});
+	
+	jQuery('.WDA_red-add-button').click(function(e){
+		e.preventDefault();
+		jQuery(this).before( jQuery('<br/><input type="text" name="WDA_array_text_box_input[]" />') );
+	});
+	
+	jQuery('#WDA_add-for-array-input').click(function(){
+		
+	});
 });

@@ -92,3 +92,18 @@
   }
 }
 /*end css for WDA_popup*/
+.WDA_red-add-button {
+    color: red;
+    font-size: 25px;
+    font-weight: bold;
+	text-decoration: none;
+}
+.WDA_Array_field_popup-footer .Add {
+    border: 1px solid green;
+    padding: 5px;
+    color: white;
+    background: green;
+    border-radius: 5px;
+    font-size: 18px;
+    margin: 10px 10px 10px 0px;
+}

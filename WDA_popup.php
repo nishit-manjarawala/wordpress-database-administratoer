@@ -7,3 +7,18 @@
 		</div>
 	</div>
 </div>
+
+<div id="WDA_Array_field_popup" class="WDA_overlay">
+	<div class="WDA_popup">
+		<h2>Add values below</h2>
+		<a class="close" href="#">&times;</a>
+		<div class="content">
+			<div class="group-textbox-array">
+				<input type="text" name="WDA_array_text_box_input[]" /> <a href="#" class="WDA_red-add-button">+</a>
+			</div>
+			<div class='WDA_Array_field_popup-footer'>
+				<button id="WDA_add-for-array-input" class="Add">Add</button>
+			</div>
+		</div>
+	</div>
+</div>
