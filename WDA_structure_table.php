@@ -3,6 +3,8 @@
 	global $wpdb;
 	$WDA_get_TABLE_ALL_LAble=WDA_get_TABLE_ALL_LAble($_GET['WDA_table']);
 ?>
+<a class='WDA_btn-back' href="<?= admin_url( 'admin.php?page=WDA-Administrator' ) ?>"><img src="<?= plugins_url('images/btn-back.png', __FILE__) ?>" style="width:50px;" /></a>
+	<?php require_once 'WDA_innerPage_menu.php'; ?>
 	<table class="WDA-tables-list">
 		<tr>
 			<th>#</th>

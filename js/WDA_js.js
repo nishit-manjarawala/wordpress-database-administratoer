@@ -1,4 +1,18 @@
 jQuery(document).ready(function(){
+	/*create prototype for trim*/
+	String.prototype.rtrim = function (s) {
+		if (s == undefined)
+			s = '\\s';
+		return this.replace(new RegExp("[" + s + "]*$"), '');
+	};
+	
+	String.prototype.ltrim = function (s) {
+		if (s == undefined)
+			s = '\\s';
+		return this.replace(new RegExp("^[" + s + "]*"), '');
+	};
+	/*end prototype for trim*/
+	
 	var WDA_ajaxurl=WDA_ajax_post_ajax.WDA_ajaxurl;
 	var text_area_val='';
 	jQuery('.WDA-Editable-Label').dblclick(function(){
@@ -98,18 +112,103 @@ jQuery(document).ready(function(){
 		location.href='#WDA_Array_field_popup';
 	}
 	
+	function WDA_BETWEEN_field_popup(){
+		location.href='#WDA_BETWEEN_field_popup';
+	}
+	
+	var element_index=0;
 	jQuery("select[name^=WDA_search_oprator]").change(function(){
 		if(jQuery(this).val()=="IN" || jQuery(this).val()=="NOT IN"){
 			WDA_Array_field_popup();
+		}else if(jQuery(this).val()=="BETWEEN" || jQuery(this).val()=="NOT BETWEEN"){
+			WDA_BETWEEN_field_popup();
 		}
+		element_index=jQuery(this).attr('data-index');
 	});
 	
 	jQuery('.WDA_red-add-button').click(function(e){
 		e.preventDefault();
 		jQuery(this).before( jQuery('<br/><input type="text" name="WDA_array_text_box_input[]" />') );
-	});
+	});	
 	
 	jQuery('#WDA_add-for-array-input').click(function(){
-		
+		var value_str='';
+		jQuery('input[name^=WDA_array_text_box_input]').each(function(){
+			value_str+=jQuery(this).val()+',';
+		});
+		value_str=value_str.rtrim(',');
+		jQuery('input[name^=WDA_search_right_Value][data-index='+element_index+']').val(value_str);
+		var k_counter=0;
+		jQuery('input[name^=WDA_array_text_box_input]').each(function(){
+			if(k_counter==0)
+				jQuery(this).val('');
+			else
+				jQuery(this).remove();
+			k_counter++;
+		});
+		jQuery('.group-textbox-array').find('br').remove();
+		location.href='#';		
+	});
+	
+	jQuery('#WDA_BETWEEN_field_popup-input').click(function(){
+		var value_str='';
+		value_str=jQuery('input[name=WDA_BETWEEN_field_popup_min_Value]').val()+","+jQuery('input[name=WDA_BETWEEN_field_popup_max_Value]').val();
+		jQuery('input[name^=WDA_search_right_Value][data-index='+element_index+']').val(value_str);
+		jQuery('input[name=WDA_BETWEEN_field_popup_min_Value]').val('');
+		jQuery('input[name=WDA_BETWEEN_field_popup_max_Value]').val('');
+		location.href='#';
+	});
+	
+	jQuery('.WDA_truncate_database_table').click(function(e){
+		e.preventDefault();
+		if(confirm('You are about to TRUNCATE a complete table! Do you really want to execute "TRUNCATE ` '+jQuery(this).attr('data-table_name')+' `"?')){
+			jQuery.ajax({
+				url:WDA_ajaxurl,
+				type:'post',
+				data:{action:'WDA_truncate_database_table',table:jQuery(this).attr('data-table_name')},
+				dataType:'json',
+				success:function(result){
+					if(result.status==true){
+						WDA_alert("success","Successfully Truncate:",result.message);
+					}else{
+						WDA_alert("error","Error :",result.message);
+					}
+				}
+			});
+		}
+	});
+	
+	jQuery('.WDA_delete_database_table').click(function(e){
+		e.preventDefault();
+		if(confirm('You are about to DESTROY a complete table! Do you really want to execute "DROP TABLE ` '+jQuery(this).attr('data-table_name')+' `"?')){
+			jQuery.ajax({
+				url:WDA_ajaxurl,
+				type:'post',
+				data:{action:'WDA_delete_database_table',table:jQuery(this).attr('data-table_name')},
+				dataType:'json',
+				success:function(result){
+					if(result.status==true){
+						location.reload();
+					}else{
+						WDA_alert("error","Error :",result.message);
+					}
+				}
+			});
+		}
+	});
+	
+	jQuery('#WDA_add_row_number_btn').click(function(){
+		var num_rows=jQuery('input[name=WDA_add_row_number]').val();
+		if(num_rows>0){
+			jQuery.ajax({
+				url:WDA_ajaxurl,
+				data:{action:'WDA_create_table_rows',num_rows:num_rows},
+				type:'post',
+				success:function(response){
+					jQuery('#WDA-insert-new-field').append(response);
+					jQuery('input[name=WDA_add_row_number]').val(1);
+				}
+			});
+		}
 	});
 });

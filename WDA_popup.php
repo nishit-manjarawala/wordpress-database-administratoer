@@ -22,3 +22,19 @@
 		</div>
 	</div>
 </div>
+
+<div id="WDA_BETWEEN_field_popup" class="WDA_overlay">
+	<div class="WDA_popup">
+		<h2>Add values below</h2>
+		<a class="close" href="#">&times;</a>
+		<div class="content">
+			<div class="group-textbox-array">
+				<input type="text" name="WDA_BETWEEN_field_popup_min_Value" placeholder="Minimum Value" />
+				<input type="text" name="WDA_BETWEEN_field_popup_max_Value" placeholder="Maximum Value" />
+			</div>
+			<div class='WDA_BETWEEN_field_popup-footer'>
+				<button id="WDA_BETWEEN_field_popup-input" class="Add">Add</button>
+			</div>
+		</div>
+	</div>
+</div>

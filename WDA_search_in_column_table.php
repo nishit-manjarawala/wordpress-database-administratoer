@@ -3,6 +3,8 @@
 	global $wpdb;
 	$WDA_get_TABLE_ALL_LAble=WDA_get_TABLE_ALL_LAble($_GET['WDA_table']);
 ?>
+	<a class='WDA_btn-back' href="<?= admin_url( 'admin.php?page=WDA-Administrator' ) ?>"><img src="<?= plugins_url('images/btn-back.png', __FILE__) ?>" style="width:50px;" /></a>
+	<?php require_once 'WDA_innerPage_menu.php'; ?>
 	<table class="WDA-tables-list">
 		<form method="post" action="<?= admin_url( 'options.php?page=WDA_browse_table' )."&WDA_table=".$_GET['WDA_table'] ?>">
 		<tr>
@@ -24,7 +26,7 @@
 			<td><?= $WDA_LAble->COLLATION_NAME ?></td>
 			<td>
 				<input type="hidden" name="WDA_search_left_Label[<?= $WDA_col_num ?>]" value="<?= $WDA_LAble->COLUMN_NAME ?>" />
-				<select name="WDA_search_oprator[<?= $WDA_col_num ?>]">
+				<select data-index="<?= $WDA_col_num ?>" name="WDA_search_oprator[<?= $WDA_col_num ?>]">
 					<option value="=">=</option>
 					<option value=">">&gt;</option>
 					<option value=">=">&gt;=</option>
@@ -43,7 +45,7 @@
 				</select>
 			</td>
 			<td>
-				<input type="text" name="WDA_search_right_Value[<?= $WDA_col_num ?>]" />
+				<input data-index="<?= $WDA_col_num ?>" type="text" name="WDA_search_right_Value[<?= $WDA_col_num ?>]" />
 			</td>
 		</tr>
 		<?php

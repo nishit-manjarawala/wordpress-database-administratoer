@@ -29,11 +29,11 @@ function WDA_Menu_Pages(){
 		'Wordpress Database Administrator',
 		'WDA',
 		'manage_options',
-		'WDA',
+		'WDA-Administrator',
 		'WDA_main_page' );
     
 	add_submenu_page(
-        'WDA',
+        'WDA-Administrator',
         'WDA SQL QUERY', //page title
         'WDA SQL QUERY', //menu title
         'manage_options', //capability,
@@ -71,6 +71,26 @@ function WDA_Menu_Pages(){
 		'WDA_search_in_column_table',
 		'WDA_search_in_column_table'
 	);
+	
+	add_submenu_page(
+		'WDA_insert_in_table',
+		__( 'Page title',
+		'Structure' ),
+		'',
+		'manage_options',
+		'WDA_insert_in_table',
+		'WDA_insert_in_table'
+	);
+	
+	add_submenu_page(
+		'WDA_Create_New_table',
+		__( 'Page title',
+		'Structure' ),
+		'',
+		'manage_options',
+		'WDA_Create_New_table',
+		'WDA_Create_New_table'
+	);
 }
 /*Added Ajax Functins*/
 require_once 'WDA_function.php';
@@ -95,7 +115,15 @@ function WDA_search_in_column_table(){
 	require_once 'WDA_search_in_column_table.php';
 }
 
+function WDA_insert_in_table(){
+	require_once 'WDA_insert_in_table.php';
+}
+
 function WDA_SQL_QUERY(){
-	
+	require_once 'WDA_SQL_QUERY.php';	
+}
+
+function WDA_Create_New_table(){
+	require_once 'WDA_Create_New_table.php';
 }
 ?>

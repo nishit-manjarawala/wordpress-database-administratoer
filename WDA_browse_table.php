@@ -74,7 +74,10 @@
 		}
 		/*end for number of record show*/
 	?>
-	<a class='WDA_btn-back' href="<?= admin_url( 'options.php?page=WDA' ) ?>"><img src="<?= plugins_url('images/btn-back.png', __FILE__) ?>" style="width:50px;" /></a>
+	<a class='WDA_btn-back' href="<?= admin_url( 'admin.php?page=WDA-Administrator' ) ?>"><img src="<?= plugins_url('images/btn-back.png', __FILE__) ?>" style="width:50px;" /></a>
+	
+	<?php require_once 'WDA_innerPage_menu.php'; ?>
+	
 	<div id="WDA_print_query" class="notify notify-yellow"><?= $WDA_Query ?></div>
 	
 	<div>		

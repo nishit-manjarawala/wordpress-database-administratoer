@@ -107,3 +107,19 @@
     font-size: 18px;
     margin: 10px 10px 10px 0px;
 }
+
+.WDA_success_message {
+    background: green;
+    color: white;
+    padding: 7px;
+    font-size: 18px;
+    margin: 10px 0px;
+}
+
+.WDA_error_message {
+    background: red;
+    color: white;
+    padding: 7px;
+    font-size: 18px;
+    margin: 10px 0px;
+}
