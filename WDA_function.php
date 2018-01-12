@@ -91,6 +91,56 @@ function WDA_get_TABLE_ALL_LAble($WDA_table_name){
 	return $WDA_Coulumn_Label_Array;
 }
 //
+add_action('wp_ajax_nopriv_WDA_create_table_shcema', 'WDA_create_table_shcema' );
+add_action('wp_ajax_WDA_create_table_shcema', 'WDA_create_table_shcema' );
+function WDA_create_table_shcema(){
+	global $wpdb;
+	$WDA_create_Query="CREATE TABLE ".$_POST['table_name']." ( ";
+		$counter_field=1;
+		foreach($_POST['WDA_row_Collection'] as $WDA_row_Collection){
+			if($counter_field!=1){
+				$WDA_create_Query.=" , ";
+			}
+			$WDA_create_Query.=" ".$WDA_row_Collection['WDA_column_name']." ".$WDA_row_Collection['WDA_data_type'];
+			if(!empty($WDA_row_Collection['WDA_value_length'])){
+				$WDA_create_Query.="(".$WDA_row_Collection['WDA_value_length'].") ";
+			}		
+			
+			if($WDA_row_Collection['WDA_allow_null'] == 'NO'){
+				$WDA_create_Query.=" NOT NULL ";
+			}
+			
+			if(!empty($WDA_row_Collection['WDA_Default_value'])){
+				if($WDA_row_Collection['WDA_Default_value']=='As Defined'){
+					if(!empty($WDA_row_Collection['WDA_Default_as_Define_value'])){
+						$WDA_create_Query.=" DEFAULT '".$WDA_row_Collection['WDA_Default_as_Define_value']."' ";
+					}
+				}else if($WDA_row_Collection['WDA_Default_value']=='NULL' || $WDA_row_Collection['WDA_Default_value']=='CURRENT_TIMESTAMP'){
+					$WDA_create_Query.=" DEFAULT ".$WDA_row_Collection['WDA_Default_value']." ";
+				}
+			}
+			
+			if($WDA_row_Collection['WDA_auto_increment']=="YES"){
+				$WDA_create_Query.=" AUTO_INCREMENT ";
+			}
+			
+			if(!empty($WDA_row_Collection['WDA_index'])){
+				$WDA_create_Query.=" ".$WDA_row_Collection['WDA_index']." ";
+			}
+			
+			$counter_field++;
+		}
+	$WDA_create_Query.=" );";
+	$wpdb->query($WDA_create_Query);
+	$error=$wpdb->last_error;
+	if($error == ""){
+		echo json_encode(array("status"=>"success","title"=>"Successfully Created","message"=>"Table '".$_POST['table_name']."' Successfully created."));
+	}else{
+		echo json_encode(array("status"=>"error","title"=>"Fail to create table","message"=>$error));
+	}
+	die();
+}
+//
 add_action('wp_ajax_nopriv_WDA_create_table_rows', 'WDA_create_table_rows' );
 add_action('wp_ajax_WDA_create_table_rows', 'WDA_create_table_rows' );
 function WDA_create_table_rows($count=1){
@@ -100,9 +150,9 @@ function WDA_create_table_rows($count=1){
 	for($i=1;$i<=$count;$i++){
 ?>
 <tr class='WDA_rows-for-create-table'>
-	<td><input type="text" name="WDA_column_name[]" /></td>
+	<td><input type="text" name="WDA_column_name" /></td>
 	<td>
-		<select name="WDA_data_type[]">
+		<select name="WDA_data_type">
 			<option value="INT">INT</option>
 			<option value="VARCHAR">VARCHAR</option>
 			<option value="TEXT">TEXT</option>
@@ -124,10 +174,18 @@ function WDA_create_table_rows($count=1){
 			<option value="LONGTEXT">LONGTEXT</option>
 		</select>
 	</td>
-	<th><input type="text" name="WDA_value_length[]" /></th>
-	<th><input type="text" name="WDA_Default_value[]" /></th>
+	<th><input type="text" name="WDA_value_length" /></th>
 	<th>
-		<select name="WDA_allow_null[]">
+		<select name="WDA_Default_value">
+			<option value="">None</option>
+			<option value="As Defined">As Defined:</option>
+			<option value="NULL">NULL</option>
+			<option value="CURRENT_TIMESTAMP">CURRENT_TIMESTAMP</option>
+		</select>
+		<input type='text' class='WDA_Default_as_Define_value' name='WDA_Default_as_Define_value' style="display:none;" />
+	</th>
+	<th>
+		<select name="WDA_allow_null">
 			<option value="NO">NO</option>
 			<option value="YES">YES</option>
 		</select>
@@ -135,7 +193,7 @@ function WDA_create_table_rows($count=1){
 	<th>
 		<select name="WDA_index">
 			<option value="">---</option>
-			<option value="PRIMARY">PRIMARY</option>
+			<option value="PRIMARY KEY">PRIMARY</option>
 			<option value="UNIQUE">UNIQUE</option>
 			<option value="INDEX">INDEX</option>
 			<option value="FULLTEXT">FULLTEXT</option>
@@ -143,12 +201,11 @@ function WDA_create_table_rows($count=1){
 		</select>
 	</th>
 	<th>
-		<select name="WDA_auto_increment[]">
+		<select name="WDA_auto_increment">
 			<option value="NO">NO</option>
 			<option value="YES">YES</option>
 		</select>
 	</th>
-	<th><input type="text" name="WDA_column_comment[]" /></th>
 </tr>
 <?php
 	}

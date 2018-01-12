@@ -211,4 +211,56 @@ jQuery(document).ready(function(){
 			});
 		}
 	});
+	
+	jQuery('#WDA_create_new_table_schema').click(function(){
+		var flag = true;
+		var table_name=jQuery('input[name=WDA_table_name]').val();
+		if(table_name.length <= 0){
+			flag = false;
+			WDA_alert("error","Error :","Table Name Required");
+			return;
+		}
+		var WDA_row_Collection=[];
+		jQuery('.WDA_rows-for-create-table').each(function(){
+			var WDA_column_name = jQuery(this).find('input[name=WDA_column_name]').val();
+			var WDA_data_type = jQuery(this).find('select[name=WDA_data_type]').val();
+			var WDA_value_length = jQuery(this).find('input[name=WDA_value_length]').val();
+			var WDA_Default_value = jQuery(this).find('select[name=WDA_Default_value]').val();
+			var WDA_Default_as_Define_value = jQuery(this).find('input[name=WDA_Default_as_Define_value]').val();
+			var WDA_allow_null= jQuery(this).find('select[name=WDA_allow_null]').val();
+			var WDA_index = jQuery(this).find('select[name=WDA_index]').val();
+			var WDA_auto_increment= jQuery(this).find('select[name=WDA_auto_increment]').val();
+			
+			if(WDA_column_name.length>0){	
+				WDA_row_Collection.push({WDA_column_name:WDA_column_name,WDA_data_type:WDA_data_type,WDA_value_length:WDA_value_length,WDA_Default_value:WDA_Default_value,WDA_Default_as_Define_value:WDA_Default_as_Define_value,WDA_allow_null:WDA_allow_null,WDA_index:WDA_index,WDA_auto_increment:WDA_auto_increment});
+			}
+		});
+		if(WDA_row_Collection.length <= 0){
+			flag = false;
+			WDA_alert("error","Error :","Missing value in the form!");
+			return;
+		}
+		
+		if(flag){
+			jQuery.ajax({
+				url:WDA_ajaxurl,
+				data:{action:'WDA_create_table_shcema',table_name:table_name,WDA_row_Collection:WDA_row_Collection},
+				type:'post',
+				dataType:'json',
+				success:function(response){
+					WDA_alert(response.status,response.title,response.message);
+				}
+			});
+		}
+		
+	});
+	
+	jQuery('select[name=WDA_Default_value]').change(function(){
+		if(jQuery(this).val()=='As Defined'){			
+			jQuery(this).parent().find('.WDA_Default_as_Define_value').css('display','block');
+		}else{
+			jQuery(this).parent().find('.WDA_Default_as_Define_value').css('display','none');
+		}
+	});
+	
 });

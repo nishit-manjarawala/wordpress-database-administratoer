@@ -124,6 +124,7 @@ function WDA_SQL_QUERY(){
 }
 
 function WDA_Create_New_table(){
+	require_once 'WDA_popup.php';
 	require_once 'WDA_Create_New_table.php';
 }
 ?>

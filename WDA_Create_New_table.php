@@ -3,7 +3,7 @@
 	<?php global $wpdb; ?>
 	<div>
 		Table name: <input type="text" name="WDA_table_name" required /> Add <input type="number" min="1" name="WDA_add_row_number" value="1" /> column(s) <button id="WDA_add_row_number_btn">Go</button>
-		Table comments: <input type="text" name="WDA_table_Comment"  />
+		
 		<h3>Structure</h3>
 		<table class="WDA-tables-list" id="WDA-insert-new-field">
 			<tr>
@@ -14,7 +14,6 @@
 				<th>Null</th>
 				<th>Index</th>
 				<th>Auto Increment</th>
-				<th>Comments</th>
 			</tr>
 			<?php WDA_create_table_rows(5); ?>
 		</table>

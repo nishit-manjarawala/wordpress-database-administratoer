@@ -3,7 +3,8 @@
     border: 1px solid;
 }
 .WDA-tables-list tr:nth-child(even){
-	background: #CCC
+	background:#D3DCE3;
+	padding:5px;
 }
 .WDA-tables-list th {
     text-align: left;
@@ -122,4 +123,16 @@
     padding: 7px;
     font-size: 18px;
     margin: 10px 0px;
+}
+.WDA-header-menu-main a {
+    text-decoration: none;
+}
+.WDA-tables-list th {
+    background: #888;
+    color: white;
+    padding: 5px;
+}
+.WDA-tables-list th a{
+	color: white;
+	text-decoration: none;
 }
