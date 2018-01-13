@@ -149,7 +149,15 @@
 			foreach($WDA_Query_Rows as $WDA_Query_Row){
 		?>
 			<tr>
-				<td>option</td>
+				<td>
+					<?php
+						if(!empty($WDA_Primery_key_name)){
+							echo"<a href='".admin_url( 'options.php?page=WDA_Edit_in_table' )."&WDA_table=".$_GET['WDA_table']."&WDA_Primery_key_name=".$WDA_Primery_key_name."&WDA_Primery_key_value=".$WDA_Query_Row->$WDA_Primery_key_name."'>Edit</a> | <a  class='WDA_Delete_Column' data-table-name='".$_GET['WDA_table']."' data-Primery_key_name='".$WDA_Primery_key_name."' data-Primery_key_value='".$WDA_Query_Row->$WDA_Primery_key_name."'  href='#'>Delete</a>";
+						}else{
+							echo"-";
+						}
+					?>
+				</td>
 				<?php
 					foreach($WDA_Coulumn_Label_Array as $WDA_Coulumn_Label){
 						echo"<td>";

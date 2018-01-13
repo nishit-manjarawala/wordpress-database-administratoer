@@ -263,4 +263,27 @@ jQuery(document).ready(function(){
 		}
 	});
 	
+	jQuery('.WDA_Delete_Column').click(function(e){
+		e.preventDefault();
+		var WDA_table_Name=jQuery(this).attr('data-table-name');
+		var WDA_primery_key_name=jQuery(this).attr('data-primery_key_name');
+		var WDA_primery_key_value=jQuery(this).attr('data-primery_key_value');		
+		if(confirm('Do you really want to execute "DELETE FROM `'+WDA_table_Name+'` WHERE `'+WDA_table_Name+'`.`'+WDA_primery_key_name+'` = '+WDA_primery_key_value+'"?')){
+			
+			jQuery.ajax({
+				url:WDA_ajaxurl,
+				data:{action:'WDA_Delete_Column',WDA_table_Name:WDA_table_Name,WDA_primery_key_name:WDA_primery_key_name,WDA_primery_key_value:WDA_primery_key_value},
+				type:'post',
+				dataType:'json',
+				success:function(result){
+					if(result.status==true){
+						location.reload();
+					}else{
+						WDA_alert("Error","Error :",result.message);
+					}
+				}
+			});
+		}
+	});
+	
 });

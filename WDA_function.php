@@ -91,6 +91,23 @@ function WDA_get_TABLE_ALL_LAble($WDA_table_name){
 	return $WDA_Coulumn_Label_Array;
 }
 //
+add_action('wp_ajax_nopriv_WDA_Delete_Column', 'WDA_Delete_Column' );
+add_action('wp_ajax_WDA_Delete_Column', 'WDA_Delete_Column' );
+function WDA_Delete_Column(){
+	global $wpdb;
+	$WDA_table_Name=$_POST['WDA_table_Name'];
+	$WDA_primery_key_name=$_POST['WDA_primery_key_name'];
+	$WDA_primery_key_value=$_POST['WDA_primery_key_value'];
+	$WDA_Delete_Where=array();
+	$WDA_Delete_Where[$_POST['WDA_primery_key_name']]=$WDA_primery_key_value;
+	if($wpdb->delete($WDA_table_Name,$WDA_Delete_Where)){
+		echo json_encode(array('status'=>true));
+	}else{
+		echo json_encode(array('status'=>false,"message"=>$wpdb->last_error));
+	}
+	die();
+}
+//
 add_action('wp_ajax_nopriv_WDA_create_table_shcema', 'WDA_create_table_shcema' );
 add_action('wp_ajax_WDA_create_table_shcema', 'WDA_create_table_shcema' );
 function WDA_create_table_shcema(){
@@ -174,8 +191,8 @@ function WDA_create_table_rows($count=1){
 			<option value="LONGTEXT">LONGTEXT</option>
 		</select>
 	</td>
-	<th><input type="text" name="WDA_value_length" /></th>
-	<th>
+	<td><input type="text" name="WDA_value_length" /></td>
+	<td>
 		<select name="WDA_Default_value">
 			<option value="">None</option>
 			<option value="As Defined">As Defined:</option>
@@ -183,14 +200,14 @@ function WDA_create_table_rows($count=1){
 			<option value="CURRENT_TIMESTAMP">CURRENT_TIMESTAMP</option>
 		</select>
 		<input type='text' class='WDA_Default_as_Define_value' name='WDA_Default_as_Define_value' style="display:none;" />
-	</th>
-	<th>
+	</td>
+	<td>
 		<select name="WDA_allow_null">
 			<option value="NO">NO</option>
 			<option value="YES">YES</option>
 		</select>
-	</th>
-	<th>
+	</td>
+	<td>
 		<select name="WDA_index">
 			<option value="">---</option>
 			<option value="PRIMARY KEY">PRIMARY</option>
@@ -199,13 +216,13 @@ function WDA_create_table_rows($count=1){
 			<option value="FULLTEXT">FULLTEXT</option>
 			<option value="SPATIAL">SPATIAL</option>
 		</select>
-	</th>
-	<th>
+	</td>
+	<td>
 		<select name="WDA_auto_increment">
 			<option value="NO">NO</option>
 			<option value="YES">YES</option>
 		</select>
-	</th>
+	</td>
 </tr>
 <?php
 	}

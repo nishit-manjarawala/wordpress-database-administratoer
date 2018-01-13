@@ -30,7 +30,7 @@
 			<td><?= $WDA_LAble->COLUMN_DEFAULT ?></td>
 			<td><?= $WDA_LAble->COLUMN_COMMENT ?></td>
 			<td><?= $WDA_LAble->EXTRA ?></td>
-			<td>Action</td>
+			<td><a href="#">Change</a> | <a href="#">Drop</a></td>
 		</tr>
 		<?php
 			$WDA_col_num++;

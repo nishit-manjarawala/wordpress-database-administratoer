@@ -91,6 +91,16 @@ function WDA_Menu_Pages(){
 		'WDA_Create_New_table',
 		'WDA_Create_New_table'
 	);
+	
+	add_submenu_page(
+		'WDA_Edit_in_table',
+		__( 'Page title',
+		'Structure' ),
+		'',
+		'manage_options',
+		'WDA_Edit_in_table',
+		'WDA_Edit_in_table'
+	);
 }
 /*Added Ajax Functins*/
 require_once 'WDA_function.php';
@@ -126,5 +136,10 @@ function WDA_SQL_QUERY(){
 function WDA_Create_New_table(){
 	require_once 'WDA_popup.php';
 	require_once 'WDA_Create_New_table.php';
+}
+
+function WDA_Edit_in_table(){
+	require_once 'WDA_popup.php';
+	require_once 'WDA_Edit_in_table.php';
 }
 ?>
