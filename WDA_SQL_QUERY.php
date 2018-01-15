@@ -10,10 +10,10 @@
 	?>
 	<form method="post">
 		<div class='sql-box'>
-			<textarea style="width:100%;" rows="14" name="WDA_sql_box" ><?= $WDA_sql_box ?></textarea>
+			<textarea style="width:100%;" rows="14" name="WDA_sql_box" required ><?= $WDA_sql_box ?></textarea>
 		</div>
 		<div class='sql-box-footer' style="text-align: right;">
-			<input type="submit" name="WDA_submit_sql" value="Go" />
+			<input class='WDA-Default-Button' type="submit" name="WDA_submit_sql" value="Go" />
 		</div>
 	</form>
 	

@@ -9,14 +9,13 @@
 * License: 
 */
 
-//adding CSS for admin pages of my plugin
 function WDA_admin_css_all_page() {    
     wp_register_style($handle = 'WDA_admin-css-all', $src = plugins_url('css/WDA_style.css', __FILE__), $deps = array(), $ver = '1.0.0', $media = 'all');
     wp_enqueue_style('WDA_admin-css-all');
 }
 add_action('admin_print_styles', 'WDA_admin_css_all_page');
 
-//adding JS for admin
+
 function WDA_admin_SCRIPT_all_page(){
 	wp_enqueue_script('WDA_admin-SCRIPT-all', plugins_url('js/WDA_js.js', __FILE__), array('jquery'));
 	wp_localize_script( 'WDA_admin-SCRIPT-all', 'WDA_ajax_post_ajax', array( 'WDA_ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
@@ -34,14 +33,13 @@ function WDA_Menu_Pages(){
     
 	add_submenu_page(
         'WDA-Administrator',
-        'WDA SQL QUERY', //page title
-        'WDA SQL QUERY', //menu title
-        'manage_options', //capability,
-        'WDA_SQL_QUERY',//menu slug
-        'WDA_SQL_QUERY' //callback function
+        'WDA SQL QUERY',
+        'WDA SQL QUERY',
+        'manage_options',
+        'WDA_SQL_QUERY',
+        'WDA_SQL_QUERY'
     );
 	
-	//hidden pages not show in menu bar
 	add_submenu_page(
 		'WDA_browse_table',
 		__( 'Page title',
@@ -101,8 +99,10 @@ function WDA_Menu_Pages(){
 		'WDA_Edit_in_table',
 		'WDA_Edit_in_table'
 	);
+	
+	
 }
-/*Added Ajax Functins*/
+
 require_once 'WDA_function.php';
 
 function WDA_main_page(){
@@ -142,4 +142,5 @@ function WDA_Edit_in_table(){
 	require_once 'WDA_popup.php';
 	require_once 'WDA_Edit_in_table.php';
 }
+
 ?>

@@ -12,6 +12,7 @@
 }
 .table-action-a {
     margin-right: 5px;
+	font-weight: bold;
 }
 .WDA-Editable-Text,.WDA-Editable-Label{width:100%;}
 .notify {
@@ -135,4 +136,20 @@
 .WDA-tables-list th a{
 	color: white;
 	text-decoration: none;
+}
+.WDA-Default-Button{
+	padding: 8px 18px;
+    margin: 5px 0px;
+    border: none;
+    background: #888888;
+    color: white;
+    font-weight: bold;
+	cursor: pointer;
+}
+.WDA-tables-list .page-numbers {
+    font-weight: bold;
+    margin: 2px;
+}
+.WDA-tables-list .page-numbers.current{
+	color:red;
 }

@@ -30,7 +30,7 @@
 			<td><?= $WDA_LAble->COLUMN_DEFAULT ?></td>
 			<td><?= $WDA_LAble->COLUMN_COMMENT ?></td>
 			<td><?= $WDA_LAble->EXTRA ?></td>
-			<td><a href="#">Change</a> | <a href="#">Drop</a></td>
+			<td> <a class='table-action-a WDA-Drop-Column_table' data-table-name="<?= $_GET['WDA_table'] ?>" data-column-name="<?= $WDA_LAble->COLUMN_NAME ?>" href="#">Drop</a></td>
 		</tr>
 		<?php
 			$WDA_col_num++;

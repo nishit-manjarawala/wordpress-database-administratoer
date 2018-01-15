@@ -91,7 +91,7 @@
 		
 		| 
 		
-		Filter rows: <input type='text' name="WDA_search_all_column" id="WDA_search_all_column" /><input id="WDA_search_all_column_submit" type="submit" value="Search" />
+		Filter rows: <input type='text' name="WDA_search_all_column" id="WDA_search_all_column" /><input class="WDA-Default-Button" id="WDA_search_all_column_submit" type="submit" value="Search" />
 	</div>
 	
 	<table class="WDA-tables-list">
@@ -149,7 +149,7 @@
 			foreach($WDA_Query_Rows as $WDA_Query_Row){
 		?>
 			<tr>
-				<td>
+				<td class="table-action-a">
 					<?php
 						if(!empty($WDA_Primery_key_name)){
 							echo"<a href='".admin_url( 'options.php?page=WDA_Edit_in_table' )."&WDA_table=".$_GET['WDA_table']."&WDA_Primery_key_name=".$WDA_Primery_key_name."&WDA_Primery_key_value=".$WDA_Query_Row->$WDA_Primery_key_name."'>Edit</a> | <a  class='WDA_Delete_Column' data-table-name='".$_GET['WDA_table']."' data-Primery_key_name='".$WDA_Primery_key_name."' data-Primery_key_value='".$WDA_Query_Row->$WDA_Primery_key_name."'  href='#'>Delete</a>";

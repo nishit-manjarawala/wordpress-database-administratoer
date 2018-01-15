@@ -63,7 +63,7 @@
 			?>
 			<tr>
 				<td colspan="3"></td>
-				<td><input type="submit" name="WDA_insert_table" value="Go" /></td>
+				<td><input class="WDA-Default-Button" type="submit" name="WDA_insert_table" value="Go" /></td>
 			</tr>
 		</form>
 	<table>

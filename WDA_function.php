@@ -90,7 +90,7 @@ function WDA_get_TABLE_ALL_LAble($WDA_table_name){
 	}
 	return $WDA_Coulumn_Label_Array;
 }
-//
+//for delete record
 add_action('wp_ajax_nopriv_WDA_Delete_Column', 'WDA_Delete_Column' );
 add_action('wp_ajax_WDA_Delete_Column', 'WDA_Delete_Column' );
 function WDA_Delete_Column(){
@@ -107,11 +107,12 @@ function WDA_Delete_Column(){
 	}
 	die();
 }
-//
+//for create new table
 add_action('wp_ajax_nopriv_WDA_create_table_shcema', 'WDA_create_table_shcema' );
 add_action('wp_ajax_WDA_create_table_shcema', 'WDA_create_table_shcema' );
 function WDA_create_table_shcema(){
 	global $wpdb;
+	$WDA_create_Query_Index="";
 	$WDA_create_Query="CREATE TABLE ".$_POST['table_name']." ( ";
 		$counter_field=1;
 		foreach($_POST['WDA_row_Collection'] as $WDA_row_Collection){
@@ -142,11 +143,12 @@ function WDA_create_table_shcema(){
 			}
 			
 			if(!empty($WDA_row_Collection['WDA_index'])){
-				$WDA_create_Query.=" ".$WDA_row_Collection['WDA_index']." ";
+				$WDA_create_Query_Index.=" ,".$WDA_row_Collection['WDA_index']." (".$WDA_row_Collection['WDA_column_name'].") ";
 			}
 			
 			$counter_field++;
 		}
+		$WDA_create_Query.=$WDA_create_Query_Index;
 	$WDA_create_Query.=" );";
 	$wpdb->query($WDA_create_Query);
 	$error=$wpdb->last_error;
@@ -157,7 +159,19 @@ function WDA_create_table_shcema(){
 	}
 	die();
 }
-//
+//Drop column
+add_action('wp_ajax_nopriv_WDA_Drop_Column_table', 'WDA_Drop_Column_table' );
+add_action('wp_ajax_WDA_Drop_Column_table', 'WDA_Drop_Column_table' );
+function WDA_Drop_Column_table(){
+	global $wpdb;
+	if($wpdb->query('ALTER TABLE '.$_POST['WDA_table_Name'].' DROP COLUMN '.$_POST['WDA_column_Name'])){
+		echo json_encode(array('status'=>true));
+	}else{
+		echo json_encode(array('status'=>false,'message'=>$wpdb->last_error));
+	}
+	die();
+}
+//HTML for create table
 add_action('wp_ajax_nopriv_WDA_create_table_rows', 'WDA_create_table_rows' );
 add_action('wp_ajax_WDA_create_table_rows', 'WDA_create_table_rows' );
 function WDA_create_table_rows($count=1){

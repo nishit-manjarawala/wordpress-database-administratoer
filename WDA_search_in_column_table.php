@@ -53,9 +53,9 @@
 		}
 		?>
 		<tr>
-		<?php $colspan=count($WDA_get_TABLE_ALL_LAble)+2; ?>
+		<?php $colspan=count($WDA_get_TABLE_ALL_LAble)+3; ?>
 		<td colspan="<?= $colspan ?>" style="text-align:right;">
-			<input type="submit" name="WDA_Search_fildes" value="GO" />
+			<input class="WDA-Default-Button" type="submit" name="WDA_Search_fildes" value="GO" />
 		</td>
 		</tr>
 	</form>

@@ -286,4 +286,23 @@ jQuery(document).ready(function(){
 		}
 	});
 	
+	jQuery('.WDA-Drop-Column_table').click(function(e){
+		e.preventDefault();
+		if(confirm('Do you really want to execute "ALTER TABLE `'+jQuery(this).attr('data-table-name')+'` DROP `'+jQuery(this).attr('data-column-name')+'`;"?')){
+			jQuery.ajax({
+				url:WDA_ajaxurl,
+				data:{action:'WDA_Drop_Column_table',WDA_table_Name:jQuery(this).attr('data-table-name'),WDA_column_Name:jQuery(this).attr('data-column-name')},
+				type:'post',
+				dataType:'json',
+				success:function(result){
+					if(result.status==true){
+						location.reload();
+					}else{
+						WDA_alert("Error","Error :",result.message);
+					}
+				}
+			});
+		}
+	});
+	
 });
